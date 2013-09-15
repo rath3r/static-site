@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<!--[if lt IE 9]><html lang="{{ lang }}" class="no-js old-ie"><![endif]-->
+<!--[if gt IE 8]><!--><html lang="{{ lang }}" class="no-js"><!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <meta name="description" content="{{ description }}">
+    <link href="css/main.css" rel="stylesheet">
+  </head>
+  <body>
+    {{> body }}
+    {{#dev}}{{/dev}}
+    <script src="js/libs.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
