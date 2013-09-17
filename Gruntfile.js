@@ -16,7 +16,7 @@ module.exports = function(grunt){
 				options: {
 				dev: true,
 				prod: false
-			},
+				},
 				src: ['templates/*.hbs'],
 				dest: 'wwwroot/'
 			},
@@ -24,24 +24,18 @@ module.exports = function(grunt){
 				options: {
 				dev: false,
 				prod: true
-			},
+				},
 				src: ['templates/*.hbs'],
 				dest: 'wwwroot/'
 			}
 		},
 		less: {
 			dev: {
-				src: ['assets/less/main.less'],
-				dest: 'wwwroot/css/main.css',
-			},
-			production: {
-				options: {
-				paths: ["assets/css"],
-				yuicompress: true
-			},
-			files: {
-					"path/to/result.css": "path/to/source.less"
-				}
+				src: [
+					'assets/bootstrap/css/*.css',
+					'assets/less/main.less',
+				],
+				dest: 'wwwroot/assets/css/main.css',
 			}
 		},
 		concat: {
@@ -54,13 +48,13 @@ module.exports = function(grunt){
 					'assets/js/app.js',
 					'assets/js/test.js'
 				],
-				dest: 'wwwroot/js/app.js',
+				dest: 'wwwroot/assets/js/app.js',
 			},
 			libs: {
 				src: [
 					'assets/js/libs/*.js'
 				],
-				dest: 'wwwroot/js/libs.js'
+				dest: 'wwwroot/assets/js/libs.js'
 			}
 		},
 		uglify: {
@@ -69,17 +63,25 @@ module.exports = function(grunt){
 			},
 			main: {
 				src: ['<%= concat.main.dest %>'],
-				dest: 'wwwroot/js/app.min.js'
+				dest: 'wwwroot/assets/js/app.min.js'
 			},
 			libs: {
 				src: ['<%= concat.libs.dest %>'],
-				dest: 'wwwroot/js/libs.min.js'
+				dest: 'wwwroot/assets/js/libs.min.js'
 			}
 		},
 		jshint: {
 			gruntfile: ['Gruntfile.js'],
 			beforeconcat: ['assets/js/*.js'],
 			afterconcat: ['wwwroot/js/app.js']
+		},
+		copy: {
+			main: {
+				src: [
+					'assets/fonts/**',
+				],
+				dest: 'wwwroot/',
+			}
 		},
 		watch: {
 			assemble: {
@@ -115,12 +117,15 @@ module.exports = function(grunt){
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('assemble');
+	grunt.loadNpmTasks('dp-grunt-contrib-copy');
 
-	grunt.registerTask('css', ['less:dev']);
+	grunt.registerTask('css', ['less:dev', 'copy']);
 
 	grunt.registerTask('js', ['concat', 'uglify']);
 
 	grunt.registerTask('templates', ['assemble:dev']);	
+
+	grunt.registerTask('fonts', ['copy']);
 
 	grunt.registerTask('default', ['css', 'js', 'templates']);
 
