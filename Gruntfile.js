@@ -1,41 +1,50 @@
 module.exports = function(grunt){
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
+		settings: {
+            app: 'assets',
+            dist: 'wwwroot',
+            templates: 'templates'
+        },
 		banner: '/*!\n' +
 			'* <%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
 			'*/\n',
 		assemble: {
 			options: {
-				assets: 'wwwroot',
-				flatten: true,
-				layout: 'index.hbs',
-				layoutdir: 'templates/layouts',
-				partials: ['templates/partials/**/*.{hbs,md}']
+				assets: 'assets',
+				layoutdir: '<%= settings.templates %>/layouts'
 			},
-			dev: {
+			site: {
 				options: {
-				dev: true,
-				prod: false
+					layout: 'index.hbs',
+					flatten: 'true'
 				},
-				src: ['templates/*.hbs'],
-				dest: 'wwwroot/'
-			},
-			prod: {
-				options: {
-				dev: false,
-				prod: true
-				},
-				src: ['templates/*.hbs'],
-				dest: 'wwwroot/'
+				src: ['<%= settings.templates %>/*.hbs'],
+				dest: '<%= settings.dist %>/'
 			}
+			// options: {
+			// 	assets: 'wwwroot',
+			// 	flatten: false,
+			// 	expand: true,
+			// 	layoutdir: '<%= settings.templates %>',
+			// 	layout: 'index.hbs'
+			// },
+			// dev: {
+			// 	options: {
+   //  				dev: true,
+   //  				prod: false
+			// 	},
+			// 	src: ['<%= settings.templates %>/**/*.hbs'],
+			// 	dest: '<%= settings.dist %>/'
+			// }
 		},
 		less: {
 			dev: {
 				src: [
-					'assets/bootstrap/css/*.css',
-					'assets/less/main.less',
+					'<%= settings.app %>/bootstrap/css/*.css',
+					'<%= settings.app %>/less/main.less',
 				],
-				dest: 'wwwroot/assets/css/main.css',
+				dest: '<%= settings.dist %>/css/main.css',
 			}
 		},
 		concat: {
@@ -45,16 +54,16 @@ module.exports = function(grunt){
 			},
 			main: {
 				src: [
-					'assets/js/app.js',
-					'assets/js/test.js'
+					'<%= settings.app %>/js/app.js',
+					'<%= settings.app %>/js/test.js'
 				],
-				dest: 'wwwroot/assets/js/app.js',
+				dest: '<%= settings.dist %>/js/app.js',
 			},
 			libs: {
 				src: [
-					'assets/js/libs/*.js'
+					'<%= settings.app %>/js/libs/*.js'
 				],
-				dest: 'wwwroot/assets/js/libs.js'
+				dest: '<%= settings.dist %>/js/libs.js'
 			}
 		},
 		uglify: {
@@ -63,11 +72,11 @@ module.exports = function(grunt){
 			},
 			main: {
 				src: ['<%= concat.main.dest %>'],
-				dest: 'wwwroot/assets/js/app.min.js'
+				dest: '<%= settings.dist %>/js/app.min.js'
 			},
 			libs: {
 				src: ['<%= concat.libs.dest %>'],
-				dest: 'wwwroot/assets/js/libs.min.js'
+				dest: '<%= settings.dist %>/js/libs.min.js'
 			}
 		},
 		jshint: {
@@ -76,17 +85,49 @@ module.exports = function(grunt){
 			afterconcat: ['wwwroot/js/app.js']
 		},
 		copy: {
-			main: {
+			dist: {
+	            files: [{
+	                expand: true,
+	                dot: true,
+	                cwd: '<%= settings.app %>',
+	                dest: '<%= settings.dist %>',
+	                src: [
+	                    '*.{ico,png,txt}',
+	                    '.htaccess',
+	                    'images/{,*/}*.{webp,gif}',
+	                    'styles/fonts/{,*/}*.*'
+	                ]
+	            }]
+	        },
+            fonts: {
+                expand: true,
+                flatten: false,
+                cwd: '<%= settings.app %>/fonts',
+                dest: '<%= settings.dist %>/fonts/',
+                src: '{,*/}*.*'
+            }
+		},
+        imagemin: {
+            dist: {
+                files: [{
+                    expand: true,
+                    cwd: '<%= settings.app %>/images',
+                    src: '{,*/}*.{png,jpg,jpeg}',
+                    dest: '<%= settings.dist %>/images'
+                }]
+            }
+        },
+		clean: {
+			build: {
 				src: [
-					'assets/fonts/**',
-				],
-				dest: 'wwwroot/',
+					"<%= settings.dist %>"
+				]
 			}
 		},
 		watch: {
 			assemble: {
 				files: ['templates/**/*.hbs'],
-				tasks: ['assemble:dev']
+				tasks: ['assemble']
 			},
             less : {
                 files : 'assets/less/**',
@@ -107,6 +148,10 @@ module.exports = function(grunt){
 			min: {
 				files: '<%= concat.main.dest %>',
 				tasks: ['jshint:afterconcat']
+			},
+			imagemin: {
+				files: '<%= settings.assets %>/images',
+				tasks: ['imagemin']
 			}
         }
 	});
@@ -118,15 +163,27 @@ module.exports = function(grunt){
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('assemble');
 	grunt.loadNpmTasks('dp-grunt-contrib-copy');
+	grunt.loadNpmTasks('grunt-contrib-imagemin');
+	grunt.loadNpmTasks('grunt-contrib-clean');
 
-	grunt.registerTask('css', ['less:dev', 'copy']);
+	grunt.registerTask('css', ['less:dev']);
 
 	grunt.registerTask('js', ['concat', 'uglify']);
 
-	grunt.registerTask('templates', ['assemble:dev']);	
+	grunt.registerTask('templates', [
+		'clean',
+		'assemble',
+	]);	
 
-	grunt.registerTask('fonts', ['copy']);
+	grunt.registerTask('fonts', ['copy:files']);
 
-	grunt.registerTask('default', ['css', 'js', 'templates']);
+	grunt.registerTask('default', [
+		'clean',
+		'assemble',
+		'css',
+		'js',
+		'copy',
+		'imagemin'
+	]);
 
 };
