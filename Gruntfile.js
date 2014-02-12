@@ -4,7 +4,8 @@ module.exports = function(grunt){
 		settings: {
             app: 'assets',
             dist: 'wwwroot',
-            templates: 'templates'
+            templates: 'templates',
+            temp: '.tmp'
         },
 		banner: '/*!\n' +
 			'* <%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
@@ -22,21 +23,21 @@ module.exports = function(grunt){
 				src: ['<%= settings.templates %>/*.hbs'],
 				dest: '<%= settings.dist %>/'
 			}
-			// options: {
-			// 	assets: 'wwwroot',
-			// 	flatten: false,
-			// 	expand: true,
-			// 	layoutdir: '<%= settings.templates %>',
-			// 	layout: 'index.hbs'
-			// },
-			// dev: {
-			// 	options: {
-   //  				dev: true,
-   //  				prod: false
-			// 	},
-			// 	src: ['<%= settings.templates %>/**/*.hbs'],
-			// 	dest: '<%= settings.dist %>/'
-			// }
+			//options: {
+			//assets: 'wwwroot',
+			//flatten: false,
+			//expand: true,
+			//layoutdir: '<%= settings.templates %>',
+			//layout: 'index.hbs'
+			//},
+			//dev: {
+			//options: {
+			//dev: true,
+			//prod: false
+			//},
+			//src: ['<%= settings.templates %>/**/*.hbs'],
+			//dest: '<%= settings.dist %>/'
+			//}
 		},
 		less: {
 			dev: {
@@ -44,7 +45,7 @@ module.exports = function(grunt){
 					'<%= settings.app %>/bootstrap/css/*.css',
 					'<%= settings.app %>/less/main.less',
 				],
-				dest: '<%= settings.dist %>/css/main.css',
+				dest: '<%= settings.temp %>/css/main.css',
 			}
 		},
 		concat: {
@@ -86,19 +87,19 @@ module.exports = function(grunt){
 		},
 		copy: {
 			dist: {
-	            files: [{
-	                expand: true,
-	                dot: true,
-	                cwd: '<%= settings.app %>',
-	                dest: '<%= settings.dist %>',
-	                src: [
-	                    '*.{ico,png,txt}',
-	                    '.htaccess',
-	                    'images/{,*/}*.{webp,gif}',
-	                    'styles/fonts/{,*/}*.*'
-	                ]
-	            }]
-	        },
+				files: [{
+				expand: true,
+				dot: true,
+				cwd: '<%= settings.app %>',
+				dest: '<%= settings.dist %>',
+				src: [
+					'*.{ico,png,txt}',
+					'.htaccess',
+					'images/{,*/}*.{webp,gif,svg}',
+					'styles/fonts/{,*/}*.*'
+				]
+				}]
+			},
             fonts: {
                 expand: true,
                 flatten: false,
@@ -120,10 +121,25 @@ module.exports = function(grunt){
 		clean: {
 			build: {
 				src: [
-					"<%= settings.dist %>"
+					"<%= settings.dist %>",
+					"<%= settings.temp %>"
 				]
 			}
 		},
+		autoprefixer: {
+			// prefix the specified file
+			single_file: {
+				src: '<%= settings.temp %>/css/main.css',
+				dest: '<%= settings.dist %>/css/main.css'
+			}
+		},
+		svgmin: {                       // Task
+			dist: {
+				files: {                                    // Dictionary of files
+					'<%= settings.dist %>/images': 'images/'     // 'destination': 'source'
+				}
+	        }
+        },
 		watch: {
 			assemble: {
 				files: ['templates/**/*.hbs'],
@@ -133,6 +149,10 @@ module.exports = function(grunt){
                 files : 'assets/less/**',
                 tasks : [ 'less:dev' ]
             },
+			autoprefixer : {
+				files : '<%= settings.temp %>/css/*.css',
+				tasks : [ 'autoprefixer:single_file' ]	
+			},
             gruntfile: {
 				files: 'Gruntfile.js',
 				tasks: ['jshint:gruntfile']
@@ -149,9 +169,13 @@ module.exports = function(grunt){
 				files: '<%= concat.main.dest %>',
 				tasks: ['jshint:afterconcat']
 			},
-			imagemin: {
+			// imagemin: {
+			// 	files: '<%= settings.assets %>/images',
+			// 	tasks: ['imagemin']
+			// },
+			svgmin: {
 				files: '<%= settings.assets %>/images',
-				tasks: ['imagemin']
+				tasks: ['svgmin']	
 			}
         }
 	});
@@ -165,8 +189,13 @@ module.exports = function(grunt){
 	grunt.loadNpmTasks('dp-grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-imagemin');
 	grunt.loadNpmTasks('grunt-contrib-clean');
+	grunt.loadNpmTasks('grunt-autoprefixer');
+	grunt.loadNpmTasks('grunt-svgmin');
 
-	grunt.registerTask('css', ['less:dev']);
+	grunt.registerTask('css', [
+		'less:dev',
+		'autoprefixer:single_file'
+	]);
 
 	grunt.registerTask('js', ['concat', 'uglify']);
 
@@ -183,7 +212,8 @@ module.exports = function(grunt){
 		'css',
 		'js',
 		'copy',
-		'imagemin'
+		//'imagemin',
+		//'svgmin'
 	]);
 
 };

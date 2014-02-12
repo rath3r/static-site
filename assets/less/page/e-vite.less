@@ -7,49 +7,123 @@
 		background-color: #fff;
 		position: relative;
 
-		h1{
-			position: absolute;
+		h1, h2, p, a{
 			font-style: italic;
-			z-index: 999;
-			width: 600px;
+		}
 
-			&#firstLine{
-				top: 55px;
-				left: 60px;	
+		header{
+			position: absolute;
+			top: 60px;
+			left: 94px;
+
+			h1{
+				position: relative;
+				z-index: 999;
+				width: 600px;
+
+				&#firstLine{
+					/*top: 55px;
+					left: 60px;*/	
+				}
+				&#secondLine{
+					/*top: 105px;*/
+					left: 10px;	
+				}
 			}
-			&#secondLine{
-				top: 105px;
-				left: 70px;	
-			}
+
+		}
+		
+		.cloud{
+			position: absolute;
+			width: 42px;
+		}
+
+		#cloud2{
+			top: 244px;
+			left: 375px;
+		//	width: 42px;
+			transform:rotate(180deg);
+		}
+		#cloud3{
+			top: 222px;
+			left: 423px;
+		//	width: 50px;
+			transform:rotate(0deg);
+		}
+		#cloud4{
+			top: 189px;
+			left: 405px;
+		//	width: 65px;
+			transform:rotate(172deg);
 		}
 
 		#invitation{
 			position: absolute;
-			top: 280px;
-			left: 35px;
+			top: 290px;
+			left: 40px;
 
 			h2{
-				font-size: 18px;
 				padding: 0px;
 				margin: 0px;
+				font-size: 20px;
+				
+				font-weight: normal;
+				line-height: 24px;
+
+				&#first{
+					position: relative;
+					left: 8px;
+				}
 			}
 			p{
 				padding: 0px;
 				margin: 0px;	
+				font-size: 16px;
 			}
 		}
 
 		#details{
 
 			position: absolute;
-			top: 370px;
-			left: 80px;	
+			top: 280px;
+			left: 500px;	
 
-			font-size: 12px;
+			p{
+				padding: 0px;
+				margin: 0px;
+				font-size: 16px;
+				line-height: 24px;
+				text-align: center;
+			}
 		}
 
 		canvas{
 			width: 660px;
+		}
+
+		footer{
+			position: absolute;
+			width: 100%;
+			display: block;
+			bottom: 0px;
+
+			p, a{
+				font-style: normal;
+				padding: 0px;
+				margin: 0px;
+				position: relative;
+			}
+
+			div{
+				bottom: 10px;
+				left: 60px;
+				float: left;
+			}
+			a{
+				bottom: 10px;
+				left: 200px;
+				color: #000;
+			}
 		}
 	}
 }

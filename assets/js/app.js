@@ -87,45 +87,7 @@ APP.wedding = (function () {
             
             drawCloud(firstCloud, false);
 
-            secondCloud = {
-                startX : 420,
-                startY : 220,
-                curves : [{
-                    desc : "curve 1",
-                    ctrl1X : 380,
-                    ctrl1Y : 230,
-                    ctrl2X : 410,
-                    ctrl2Y : 235,
-                    endX : 430,
-                    endY : 230
-                },{
-                    desc : "curve 2",
-                    ctrl1X : 420,
-                    ctrl1Y : 230, 
-                    ctrl2X : 440, 
-                    ctrl2Y : 240, 
-                    endX : 410, 
-                    endY : 220
-                },{
-                    desc : "curve 2",
-                    ctrl1X : 440,
-                    ctrl1Y : 240, 
-                    ctrl2X : 400, 
-                    ctrl2Y : 170, 
-                    endX : 420, 
-                    endY : 230
-                },{
-                    desc : "curve 2",
-                    ctrl1X : 400,
-                    ctrl1Y : 220, 
-                    ctrl2X : 450, 
-                    ctrl2Y : 140, 
-                    endX : 420, 
-                    endY : 220
-                }]
-            };
-            
-            drawCloud(secondCloud, false);
+            //
             // context.font = "30px LibreBaskerville-Regular";
             // context.fillText("our nuptial hour", 80, 90);
             // context.fillText("draws on apace . . .", 90, 140);
@@ -213,7 +175,7 @@ APP.wedding = (function () {
         }
 
         context.closePath();
-        context.lineWidth = 1;
+        context.lineWidth = 1.5;
         // context.fillStyle = '#8ED6FF';
         // context.fill();
         context.strokeStyle = '#000';
@@ -249,4 +211,5 @@ APP.wedding = (function () {
     };
 }());
 
+//
 APP.wedding.init();
