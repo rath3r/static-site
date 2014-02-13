@@ -1,6 +1,6 @@
 .saveTheDate{
 	background-color: #444;
-	font-family: 'LibreBaskerville-Regular' !important;
+	font-family: 'Times New Roman' serif;
 
 	.container{
 		width: 660px;
@@ -20,6 +20,7 @@
 				position: relative;
 				z-index: 999;
 				width: 600px;
+				font-family: 'LibreBaskerville-Regular' !important;
 
 				&#firstLine{
 					/*top: 55px;
@@ -105,24 +106,28 @@
 			position: absolute;
 			width: 100%;
 			display: block;
-			bottom: 0px;
-
-			p, a{
-				font-style: normal;
-				padding: 0px;
-				margin: 0px;
-				position: relative;
-			}
+			bottom: 3px;
 
 			div{
-				bottom: 10px;
-				left: 60px;
-				float: left;
+				
+				padding: 0px;
+				margin: 0px;
 			}
-			a{
-				bottom: 10px;
-				left: 200px;
-				color: #000;
+
+			div#left{
+				font-style: italic;
+				float: left;
+				margin-left: 120px;
+			}
+			div#right{
+				
+				float: right;
+				margin-right: 60px;
+
+				a{
+					font-style: italic;
+					color: #000;
+				}
 			}
 		}
 	}

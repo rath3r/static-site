@@ -116,7 +116,10 @@ module.exports = function(grunt){
                     src: '{,*/}*.{png,jpg,jpeg}',
                     dest: '<%= settings.dist %>/images'
                 }]
-            }
+            },
+            dev: {
+            asdf
+            } 
         },
 		clean: {
 			build: {
@@ -169,10 +172,10 @@ module.exports = function(grunt){
 				files: '<%= concat.main.dest %>',
 				tasks: ['jshint:afterconcat']
 			},
-			// imagemin: {
-			// 	files: '<%= settings.assets %>/images',
-			// 	tasks: ['imagemin']
-			// },
+			imagemin: {
+				files: '<%= settings.assets %>/images',
+				tasks: ['imagemin:dev']
+			},
 			svgmin: {
 				files: '<%= settings.assets %>/images',
 				tasks: ['svgmin']	
@@ -212,7 +215,7 @@ module.exports = function(grunt){
 		'css',
 		'js',
 		'copy',
-		//'imagemin',
+		'imagemin:dev',
 		//'svgmin'
 	]);
 
