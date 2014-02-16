@@ -87,18 +87,21 @@ module.exports = function(grunt){
 		},
 		copy: {
 			dist: {
-				files: [{
-				expand: true,
-				dot: true,
-				cwd: '<%= settings.app %>',
-				dest: '<%= settings.dist %>',
-				src: [
-					'*.{ico,png,txt}',
-					'.htaccess',
-					'images/{,*/}*.{webp,gif,svg}',
-					'styles/fonts/{,*/}*.*'
+				files: [
+					{
+						expand: true,
+						dot: true,
+						flatten: false,
+						cwd: '<%= settings.app %>',
+						dest: '<%= settings.dist %>',
+						src: [
+							'*.{ico,png,txt}',
+							'.htaccess',
+							'images/email/{,*/}*.{jpg,svg}'
+							//'fonts/{,*/}*.*'
+						]
+				 	}
 				]
-				}]
 			},
             fonts: {
                 expand: true,
@@ -106,6 +109,15 @@ module.exports = function(grunt){
                 cwd: '<%= settings.app %>/fonts',
                 dest: '<%= settings.dist %>/fonts/',
                 src: '{,*/}*.*'
+            },
+            dev: {
+				expand: true,
+                flatten: false,
+                cwd: '<%= settings.app %>',
+                dest: '<%= settings.dist %>/',
+                src: [
+					'/images/email/*.{jpg,svg}'
+				]
             }
 		},
         imagemin: {
@@ -116,10 +128,7 @@ module.exports = function(grunt){
                     src: '{,*/}*.{png,jpg,jpeg}',
                     dest: '<%= settings.dist %>/images'
                 }]
-            },
-            dev: {
-            asdf
-            } 
+            }
         },
 		clean: {
 			build: {
@@ -141,7 +150,7 @@ module.exports = function(grunt){
 				files: {                                    // Dictionary of files
 					'<%= settings.dist %>/images': 'images/'     // 'destination': 'source'
 				}
-	        }
+			}
         },
 		watch: {
 			assemble: {
@@ -172,9 +181,13 @@ module.exports = function(grunt){
 				files: '<%= concat.main.dest %>',
 				tasks: ['jshint:afterconcat']
 			},
-			imagemin: {
-				files: '<%= settings.assets %>/images',
-				tasks: ['imagemin:dev']
+			//imagemin: {
+			//files: '<%= settings.assets %>/images',
+			//tasks: ['imagemin:dev']
+			//},
+			copy:{
+				files: '<%= concat.main.src %>/email',
+				tasks: ['copy:dev']
 			},
 			svgmin: {
 				files: '<%= settings.assets %>/images',
@@ -202,9 +215,9 @@ module.exports = function(grunt){
 
 	grunt.registerTask('js', ['concat', 'uglify']);
 
-	grunt.registerTask('templates', [
+	grunt.registerTask('testTarget', [
 		'clean',
-		'assemble',
+		'copy:dist',
 	]);	
 
 	grunt.registerTask('fonts', ['copy:files']);
@@ -214,8 +227,8 @@ module.exports = function(grunt){
 		'assemble',
 		'css',
 		'js',
-		'copy',
-		'imagemin:dev',
+		'copy:dist',
+		//'imagemin:dev',
 		//'svgmin'
 	]);
 
