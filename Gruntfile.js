@@ -87,20 +87,16 @@ module.exports = function(grunt){
 		},
 		copy: {
 			dist: {
-				files: [
-					{
-						expand: true,
-						dot: true,
-						flatten: false,
-						cwd: '<%= settings.app %>',
-						dest: '<%= settings.dist %>',
-						src: [
-							'*.{ico,png,txt}',
-							'.htaccess',
-							'images/email/{,*/}*.{jpg,svg}'
-							//'fonts/{,*/}*.*'
-						]
-				 	}
+				expand: true,
+				dot: true,
+				flatten: false,
+				cwd: '<%= settings.app %>',
+				dest: '<%= settings.dist %>',
+				src: [
+					'*.{ico,png,txt}',
+					'.htaccess',
+					'images/email/{,*/}*.{jpg,svg}'
+					//'fonts/{,*/}*.*'
 				]
 			},
             fonts: {
@@ -118,18 +114,17 @@ module.exports = function(grunt){
                 src: [
 					'/images/email/*.{jpg,svg}'
 				]
-            }
-		},
-        imagemin: {
-            dist: {
-                files: [{
-                    expand: true,
-                    cwd: '<%= settings.app %>/images',
-                    src: '{,*/}*.{png,jpg,jpeg}',
-                    dest: '<%= settings.dist %>/images'
+            },
+            svg: {
+            	files: [{
+	            	expand: true,
+	                dot: true,
+	                cwd: '<%= settings.app %>/images/email/',
+	                src: '*.svg',
+	                dest: '<%= settings.dist %>/images/email/'
                 }]
             }
-        },
+		},
 		clean: {
 			build: {
 				src: [
@@ -145,12 +140,31 @@ module.exports = function(grunt){
 				dest: '<%= settings.dist %>/css/main.css'
 			}
 		},
-		svgmin: {                       // Task
-			dist: {
-				files: {                                    // Dictionary of files
-					'<%= settings.dist %>/images': 'images/'     // 'destination': 'source'
-				}
-			}
+        imagemin: {
+            dist: {
+                files: [{
+                    expand: true,
+                    cwd: '<%= settings.app %>/images/',
+                    src: '{,*/}*.{png,jpg,jpeg}',
+                    dest: '<%= settings.dist %>/images/'
+                }]
+            }
+        },
+        svgmin: {
+            dist: {
+                files: [{
+                    expand: true,
+                    cwd: '<%= settings.app %>/images',
+                    src: '{,*/}*.svg',
+                    dest: '<%= settings.dist %>/images/'
+                }]
+            }
+        },
+        concurrent: {
+            dist: [
+                'assemble',
+                'copy:dist'
+            ]
         },
 		watch: {
 			assemble: {
@@ -207,27 +221,32 @@ module.exports = function(grunt){
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-autoprefixer');
 	grunt.loadNpmTasks('grunt-svgmin');
+	grunt.loadNpmTasks('grunt-concurrent');
 
 	grunt.registerTask('css', [
 		'less:dev',
 		'autoprefixer:single_file'
 	]);
 
+	grunt.registerTask('images', [
+		//'imagemin',
+        'copy:svg'
+	]);
+
 	grunt.registerTask('js', ['concat', 'uglify']);
 
 	grunt.registerTask('testTarget', [
-		'clean',
+		//'clean',
 		'copy:dist',
 	]);	
 
 	grunt.registerTask('fonts', ['copy:files']);
 
 	grunt.registerTask('default', [
-		'clean',
 		'assemble',
 		'css',
 		'js',
-		'copy:dist',
+		//'copy:dist',
 		//'imagemin:dev',
 		//'svgmin'
 	]);
