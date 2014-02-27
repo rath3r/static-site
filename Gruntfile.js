@@ -39,6 +39,18 @@ module.exports = function(grunt){
 			//dest: '<%= settings.dist %>/'
 			//}
 		},
+		connect: {
+			server: {
+				options: {
+					port: 9001,
+					base: '<%= settings.dist %>',
+					target: 'http://localhost:8000', // target url to open
+					appName: 'open', // name of the app that opens, ie: open, start, xdg-open
+					callback: function() {}, // called when the app has opened
+					useAvailablePort: true
+				}
+			}
+		},
 		less: {
 			dev: {
 				src: [
@@ -222,6 +234,7 @@ module.exports = function(grunt){
 	grunt.loadNpmTasks('grunt-autoprefixer');
 	grunt.loadNpmTasks('grunt-svgmin');
 	grunt.loadNpmTasks('grunt-concurrent');
+	grunt.loadNpmTasks('grunt-contrib-connect');
 
 	grunt.registerTask('css', [
 		'less:dev',
