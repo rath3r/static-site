@@ -244,11 +244,8 @@ module.exports = function(grunt){
 	grunt.loadNpmTasks('grunt-autoprefixer');
 	grunt.loadNpmTasks('grunt-svgmin');
 	grunt.loadNpmTasks('grunt-concurrent');
-<<<<<<< HEAD
 	grunt.loadNpmTasks('grunt-contrib-connect');
-=======
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
->>>>>>> thommeehan-master
 
 	grunt.registerTask('css', [
 		'less:dev',

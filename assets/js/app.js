@@ -7,7 +7,7 @@ APP.porfolio = (function () {
 
     function init() {
 
-        console.log("portfolio");
+        console.log("static-site");
         
         //_setUpScroll();
     }
@@ -16,8 +16,6 @@ APP.porfolio = (function () {
 
         var anchors = $('#mainNav').find('a'),
             i, l;
-
-        
 
         $('#mainNav').find('a').each(function(){
             $(this).click(function(){
