@@ -13,7 +13,8 @@ module.exports = function(grunt){
 		assemble: {
 			options: {
 				assets: 'assets',
-				layoutdir: '<%= settings.templates %>/layouts'
+				layoutdir: '<%= settings.templates %>/layouts',
+				partials: ['<%= settings.templates %>/partials/*.hbs' ],
 			},
 			site: {
 				options: {
@@ -54,7 +55,7 @@ module.exports = function(grunt){
 		less: {
 			dev: {
 				src: [
-					'<%= settings.app %>/bootstrap/css/*.css',
+					'<%= settings.app %>/bower_components/bootstrap/less/bootstrap.less',
 					'<%= settings.app %>/less/main.less',
 				],
 				dest: '<%= settings.temp %>/css/main.css',
@@ -128,13 +129,13 @@ module.exports = function(grunt){
 				]
             },
             svg: {
-            	files: [{
-	            	expand: true,
-	                dot: true,
-	                cwd: '<%= settings.app %>/images/email/',
-	                src: '*.svg',
-	                dest: '<%= settings.dist %>/images/email/'
-                }]
+				files: [{
+					expand: true,
+					dot: true,
+					cwd: '<%= settings.app %>/images/email/',
+					src: '*.svg',
+					dest: '<%= settings.dist %>/images/email/'
+				}]
             }
 		},
 		clean: {
@@ -150,6 +151,15 @@ module.exports = function(grunt){
 			single_file: {
 				src: '<%= settings.temp %>/css/main.css',
 				dest: '<%= settings.dist %>/css/main.css'
+			}
+		},
+		cssmin: {
+			minify: {
+				expand: true,
+				cwd: '<%= settings.dist %>/css/',
+				src: ['*.css', '!*.min.css'],
+				dest: '<%= settings.dist %>/css/',
+				ext: '.min.css'
 			}
 		},
         imagemin: {
@@ -234,11 +244,16 @@ module.exports = function(grunt){
 	grunt.loadNpmTasks('grunt-autoprefixer');
 	grunt.loadNpmTasks('grunt-svgmin');
 	grunt.loadNpmTasks('grunt-concurrent');
+<<<<<<< HEAD
 	grunt.loadNpmTasks('grunt-contrib-connect');
+=======
+	grunt.loadNpmTasks('grunt-contrib-cssmin');
+>>>>>>> thommeehan-master
 
 	grunt.registerTask('css', [
 		'less:dev',
-		'autoprefixer:single_file'
+		'autoprefixer:single_file',
+		'cssmin'
 	]);
 
 	grunt.registerTask('images', [

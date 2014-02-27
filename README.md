@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 static-site
 =======
 
@@ -32,3 +33,7 @@ To run
 To watch
 
 `grunt watch`
+=======
+thommeehan
+==========
+>>>>>>> b0307e33377219df191e9e01b8f3eb1616b26bc7
