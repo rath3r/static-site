@@ -17,6 +17,14 @@ Make sure you have `node` and `npm` installed.
 
 `npm install -g grunt-cli`
 
+`Bower` is used for managing package dependencies which are used and defined in the `bower.json` file. Install if not installed.
+
+`npm install -g bower`
+
+The `bower_components` dir is ignored so install the dependencies before doing anything and add new dependencies to the config.
+
+`bower install`
+
 Once everything is installed run:
 
 `npm install`
