@@ -1,0 +1,26 @@
+{
+  "name": "static-site",
+  "version": "0.0.0",
+  "homepage": "https://github.com/rath3r/static-site",
+  "authors": [
+    "Thomas Meehan thom.meehan@gmail.com"
+  ],
+  "description": "template for static sites",
+  "main": "wwwroot/index.html",
+  "keywords": [
+    "template",
+    "static"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "*"
+  }
+}
