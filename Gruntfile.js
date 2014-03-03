@@ -68,14 +68,15 @@ module.exports = function(grunt){
 			},
 			main: {
 				src: [
-					'<%= settings.app %>/js/app.js',
-					'<%= settings.app %>/js/test.js'
+					'<%= settings.app %>/js/libs/timeline.js',
+					'<%= settings.app %>/js/app.js'
 				],
 				dest: '<%= settings.dist %>/js/app.js',
 			},
 			libs: {
 				src: [
-					'<%= settings.app %>/js/libs/*.js'
+					'<%= settings.app %>/bower_components/jquery/dist/jquery.js',
+					'<%= settings.app %>/bower_components/raphael/raphael.js'
 				],
 				dest: '<%= settings.dist %>/js/libs.js'
 			}

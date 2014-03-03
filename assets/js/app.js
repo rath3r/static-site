@@ -9,6 +9,7 @@ APP.porfolio = (function () {
 
         console.log("static-site");
         
+        APP.timeline.init();
         //_setUpScroll();
     }
 
