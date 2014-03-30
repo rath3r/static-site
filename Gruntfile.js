@@ -58,6 +58,13 @@ module.exports = function(grunt){
 					'<%= settings.app %>/bower_components/bootstrap/less/bootstrap.less',
 					'<%= settings.app %>/less/main.less',
 				],
+				dest: '<%= settings.dist %>/css/main.css',
+			},
+			autoprefixer: {
+				src: [
+					'<%= settings.app %>/bower_components/bootstrap/less/bootstrap.less',
+					'<%= settings.app %>/less/main.less',
+				],
 				dest: '<%= settings.temp %>/css/main.css',
 			}
 		},
@@ -198,10 +205,10 @@ module.exports = function(grunt){
                 files : 'assets/less/**',
                 tasks : [ 'less:dev' ]
             },
-			autoprefixer : {
-				files : '<%= settings.temp %>/css/*.css',
-				tasks : [ 'autoprefixer:single_file' ]	
-			},
+			//autoprefixer : {
+			//files : '<%= settings.temp %>/css/*.css',
+			//tasks : [ 'autoprefixer:single_file' ]	
+			//},
             gruntfile: {
 				files: 'Gruntfile.js',
 				tasks: ['jshint:gruntfile']
