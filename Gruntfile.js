@@ -58,6 +58,13 @@ module.exports = function(grunt){
 					'<%= settings.app %>/bower_components/bootstrap/less/bootstrap.less',
 					'<%= settings.app %>/less/main.less',
 				],
+				dest: '<%= settings.dist %>/css/main.css',
+			},
+			autoprefixer: {
+				src: [
+					'<%= settings.app %>/bower_components/bootstrap/less/bootstrap.less',
+					'<%= settings.app %>/less/main.less',
+				],
 				dest: '<%= settings.temp %>/css/main.css',
 			}
 		},
@@ -68,14 +75,15 @@ module.exports = function(grunt){
 			},
 			main: {
 				src: [
-					'<%= settings.app %>/js/app.js',
-					'<%= settings.app %>/js/test.js'
+					'<%= settings.app %>/js/libs/timeline.js',
+					'<%= settings.app %>/js/app.js'
 				],
 				dest: '<%= settings.dist %>/js/app.js',
 			},
 			libs: {
 				src: [
-					'<%= settings.app %>/js/libs/*.js'
+					'<%= settings.app %>/bower_components/jquery/dist/jquery.js',
+					'<%= settings.app %>/bower_components/raphael/raphael.js'
 				],
 				dest: '<%= settings.dist %>/js/libs.js'
 			}
@@ -197,10 +205,10 @@ module.exports = function(grunt){
                 files : 'assets/less/**',
                 tasks : [ 'less:dev' ]
             },
-			autoprefixer : {
-				files : '<%= settings.temp %>/css/*.css',
-				tasks : [ 'autoprefixer:single_file' ]	
-			},
+			//autoprefixer : {
+			//files : '<%= settings.temp %>/css/*.css',
+			//tasks : [ 'autoprefixer:single_file' ]	
+			//},
             gruntfile: {
 				files: 'Gruntfile.js',
 				tasks: ['jshint:gruntfile']
